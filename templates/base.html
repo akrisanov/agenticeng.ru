@@ -59,19 +59,17 @@
 <div class="common">
   <header class="flag">
     <div class="header-content">
-      <div class="header-description">
-        <div class="title">
-          <div class="title-inner">
-            <div class="logo">
-              <a href="/" aria-label="{{ config.title }}">
-                <img src="/images/userpic.jpg" class="userpic" alt="{{ config.title }}" width="64" height="64" />
-              </a>
-            </div>
-            <h1><a href="/">{{ config.title }}</a></h1>
-            {% if config.extra.blog_subtitle %}
-            <div class="blog-description"><p>{{ config.extra.blog_subtitle }}</p></div>
-            {% endif %}
+      <div class="title">
+        <div class="title-inner">
+          <div class="logo">
+            <a href="/" aria-label="{{ config.title }}">
+              <img src="/images/userpic.jpg" class="userpic" alt="{{ config.title }}" width="64" height="64" />
+            </a>
           </div>
+          <h1><a href="/">{{ config.title }}</a></h1>
+          {% if config.extra.blog_subtitle %}
+          <div class="blog-description"><p>{{ config.extra.blog_subtitle }}</p></div>
+          {% endif %}
         </div>
       </div>
     </div>

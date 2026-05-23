@@ -371,7 +371,6 @@ a:hover {
   font-size: 36px;
   line-height: 42px;
   color: var(--headingsColor);
-  flex: 1 1 auto;
   max-width: 720px;
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -394,18 +393,10 @@ a:hover {
   color: var(--foregroundColor);
   opacity: 0.5;
   white-space: nowrap;
-  flex-shrink: 0;
 }
 
 .note-summary {
   margin-top: 8px;
-}
-
-.note-tags {
-  margin-top: 12px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
 }
 
 /* --- Single post --- */

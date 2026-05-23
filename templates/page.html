@@ -84,8 +84,8 @@ twitter_title %}{{ page.title }} — {{ config.title }}{% endblock twitter_title
 </script>
 {% endblock content %}
 
-{% if page.extra.mermaid %}
 {% block scripts %}
+{% if page.extra.mermaid %}
 <script type="module">
   import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
   mermaid.initialize({
@@ -94,5 +94,5 @@ twitter_title %}{{ page.title }} — {{ config.title }}{% endblock twitter_title
     fontFamily: 'inherit',
   });
 </script>
-{% endblock scripts %}
 {% endif %}
+{% endblock scripts %}

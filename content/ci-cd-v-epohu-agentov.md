@@ -50,24 +50,22 @@ CI/CD в текущем виде был спроектирован для мир
 
 <pre class="mermaid">
 flowchart TD
-    Start([" Цель + план "]):::start --> Gen
+    Start([Цель + план]):::start --> Gen
 
-    subgraph loop["  🔄  Агентный цикл  "]
+    subgraph loop[Агентный цикл]
         direction TB
-        Gen["⚙️ Генерация кода"]:::step --> ValInt
-        ValInt["🔍 Внутренняя валидация
-сборка · тесты · линтеры"]:::step --> ValExt
-        ValExt["👤 Внешняя валидация
-человек или агенты-ревьюеры"]:::step --> Fix
-        Fix["🔧 Исправления"]:::step --> Gen
+        Gen[Генерация кода]:::step --> ValInt
+        ValInt[Внутренняя валидация]:::step --> ValExt
+        ValExt[Внешняя валидация]:::step --> Fix
+        Fix[Исправления по обратной связи]:::step --> Gen
     end
 
-    loop --> MQ["📬 Merge Queue"]:::infra
-    MQ --> Repo[("🗄️ Репозиторий")]:::infra
+    loop --> MQ[Merge Queue]:::infra
+    MQ --> Repo[(Репозиторий)]:::infra
 
-    classDef start fill:#ff00a0,color:#fff,stroke:#ff00a0,font-weight:bold
-    classDef step fill:#f0e8ff,color:#302090,stroke:rgba(64,48,144,0.3)
-    classDef infra fill:#e8f4ff,color:#302090,stroke:rgba(48,138,240,0.4)
+    classDef start fill:#ff00a0,color:#fff,stroke:#cc007f
+    classDef step fill:#f0e8ff,color:#302090,stroke:#c0a8ff
+    classDef infra fill:#e8f4ff,color:#1a1a6e,stroke:#90adff
 </pre>
 
 Кажется, следующим шагом будет сокращение участия человека внутри быстрого агентного цикла. То есть разработчику уже не придётся смотреть каждую итерацию изменений и каждый PR. Для этого появятся специализированные агенты. Можно легко представить такую агентную команду:

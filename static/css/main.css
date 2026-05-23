@@ -591,6 +591,39 @@ a:hover {
   font-size: 16px;
 }
 
+/* --- Responsive video (YouTube / iframe) --- */
+.e2-text-video {
+  margin: 20px 0 28px;
+  max-width: 720px;
+}
+
+.e2-text-super-wrapper {
+  max-width: 100%;
+}
+
+.e2-text-proportional-wrapper {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+}
+
+.e2-text-proportional-wrapper iframe,
+.e2-text-proportional-wrapper video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.e2-text-caption {
+  margin-top: 8px;
+  font-size: var(--smallFontSize);
+  line-height: var(--smallLineHeight);
+  color: var(--foregroundColor);
+  opacity: 0.6;
+}
+
 /* --- Post navigation (prev/next) --- */
 .note-navigation {
   display: flex;

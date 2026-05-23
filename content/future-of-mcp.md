@@ -6,6 +6,7 @@ tags = []
 +++
 
 Посмотрел доклад David Soria Parra из Anthropic про будущее MCP.
+<!-- more -->
 
 В 2026 году узким местом для AI-агентов становятся уже не модели, а связность между разными компонентами ИИ-системы: как агент подключается к инструментам, данным, приложениям, какие права доступа у него есть, как вокруг всего этого строить UX и бизнес-сценарии.
 
@@ -142,4 +143,7 @@ MCP — это не просто новый стандарт для тулов. 
 
   * **Для enterprise-сценариев нужен gateway**. Без него MCP быстро превращается в shadow IT для агентов.
 
-
+<div class="e2-text-video">
+<div class="e2-text-super-wrapper" style="max-width: 100%"><div class="e2-text-proportional-wrapper" style="padding-bottom: 56.25%"><iframe width="100%" height="100%" style="position: absolute" src="https://www.youtube.com/embed/v3Fr2JR47KA?enablejsapi=1" frameborder="0" allowfullscreen allow="autoplay"> </iframe></div></div>
+<div class="e2-text-caption">The Future of MCP — David Soria Parra, Anthropic</div>
+</div>

@@ -6,6 +6,7 @@ tags = []
 +++
 
 В декабре 2025 года, еще работая в ПланФакте, я начал рассказывать командам о прикладном ИИ и о том, как его можно внедрять в продукты. Через несколько недель мое сотрудничество с компанией завершилось, и я решил полностью сосредоточиться на системах искусственного интеллекта.
+<!-- more -->
 
 На новом месте быстро появилась та же задача: помогать разработчикам, пользователям GenAI-платформы и менеджменту лучше понимать большие языковые модели (LLM), их возможности и ограничения. В итоге это выросло в серию лекций, часть которых я могу опубликовать.
 
@@ -21,6 +22,7 @@ tags = []
 
 Ниже — запись.
 
-<video controls style="max-width:100%;margin:16px 0" src="/video/LLM-i-Foundation-modeli.mp4"></video>
-
-*LLM и Foundation модели*
+<div class="e2-text-video">
+<div class="e2-text-super-wrapper" style="max-width: 100%"><div class="e2-text-proportional-wrapper" style="padding-bottom: 56.25%"><video style="position: absolute" src="/video/LLM-i-Foundation-modeli.mp4" controls></video></div></div>
+<div class="e2-text-caption">LLM и Foundation модели</div>
+</div>

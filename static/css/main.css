@@ -331,19 +331,27 @@ a:hover {
   line-height: var(--smallLineHeight);
 }
 
-.engine {
+.footer-copy {
   color: var(--engineTextColor);
 }
 
-.engine a,
-.engine a:link,
-.engine a:visited {
+.footer-rss {
+  margin-left: 12px;
+}
+
+.footer-engine {
+  margin-top: 4px;
+  color: var(--engineTextColor);
+}
+
+.footer a,
+.footer a:link,
+.footer a:visited {
   color: var(--engineTextColor);
   border-color: var(--engineTextUnderlineColor);
 }
 
-.footer a:hover,
-.engine a:hover {
+.footer a:hover {
   color: var(--hoverColor);
   border-color: var(--hoverUnderlineColor);
 }

@@ -71,10 +71,14 @@
   </main>
 
   <footer class="footer">
-    <div class="engine">
-      <a href="/">{{ config.title }}</a>
-      &mdash;
-      сделано на <a href="https://www.getzola.org/" rel="noopener noreferrer" target="_blank">Zola</a>
+    <div class="footer-copy">
+      &copy; {{ config.extra.author }}, {{ now() | date(format="%Y") }}
+      {% if config.generate_feeds %}
+      <a class="footer-rss" href="{{ get_url(path='rss.xml') }}" title="RSS">RSS</a>
+      {% endif %}
+    </div>
+    <div class="footer-engine">
+      Движок &mdash; <a href="https://www.getzola.org/" rel="noopener noreferrer" target="_blank">Zola</a>
     </div>
   </footer>
 </div>

@@ -28,7 +28,7 @@ tags = ["GPU", "Kubernetes", "NVIDIA", "Windows", "WSL2", "инфраструк�
   * K3s (containerd)
   * NVIDIA Container Toolkit
   * NVIDIA device plugin
-  * фикс: _runtimeClassName: nvidia_ для device plugin
+  * фикс: `runtimeClassName: nvidia` для device plugin
 
 
 
@@ -58,7 +58,7 @@ nvidia-smi
 
 ### Шаг 2: Linux-драйверы
 
-WSL — особенная штука. Драйвер для GPU живет в Windows, Linux просто проксирует доступ через /_usr/lib/wsl_
+WSL — особенная штука. Драйвер для GPU живет в Windows, Linux просто проксирует доступ через `/usr/lib/wsl`
 
 Если nvidia-smi не находится:
     
@@ -150,7 +150,7 @@ Incompatible strategy detected auto
 
   * внутри pod’а нет CUDA / NVML
   * GPU не может быть обнаружен
-  * _nvidia.com/gpu_ не регистрируется
+  * `nvidia.com/gpu` не регистрируется
 
 
 

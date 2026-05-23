@@ -83,15 +83,15 @@
   <footer class="footer">
     <div class="footer-copy">
       &copy; {{ config.author }}, {{ now() | date(format="%Y") }}
+    </div>
+    <div class="footer-engine">
+      Движок 🦀 <a href="https://www.getzola.org/" rel="noopener noreferrer" target="_blank">Zola</a>
       {% if config.generate_feeds %}
       <a class="footer-rss" href="{{ get_url(path='rss.xml') }}" title="RSS">
         <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor" aria-hidden="true"><circle cx="2" cy="8" r="1.5"/><path d="M1 4.5a4.5 4.5 0 014.5 4.5h1.5A6 6 0 001 3z"/><path d="M1 1a8 8 0 018 8h1.5A9.5 9.5 0 001-.5z"/></svg>
         RSS
       </a>
       {% endif %}
-    </div>
-    <div class="footer-engine">
-      Движок &mdash; <a href="https://www.getzola.org/" rel="noopener noreferrer" target="_blank">Zola</a> 🦀
     </div>
   </footer>
 </div>

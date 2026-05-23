@@ -31,9 +31,9 @@ paginator.pages %} {% else %} {% set section = get_section(path="_index.md") %}
 {% endfor %} {% if paginator %}
 <nav class="pagination">
   {% if paginator.previous %}
-  <a href="{{ paginator.previous }}" class="pagination-newer">&larr; Новее</a>
+  <a href="{{ paginator.previous }}" class="pagination-newer">Позднее <i class="nav-modifier"></i>↑</a>
   {% endif %} {% if paginator.next %}
-  <a href="{{ paginator.next }}" class="pagination-older">Старше &rarr;</a>
+  <a href="{{ paginator.next }}" class="pagination-older">Ранее <i class="nav-modifier"></i>↓</a>
   {% endif %}
 </nav>
 {% endif %} {% endblock content %}

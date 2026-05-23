@@ -633,3 +633,11 @@ a:hover {
 .nav-newer {
   margin-left: auto;
 }
+
+.nav-modifier::after {
+  content: '⌥';
+}
+
+[data-os="other"] .nav-modifier::after {
+  content: 'Alt';
+}

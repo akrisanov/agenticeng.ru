@@ -412,6 +412,10 @@ a:hover {
 }
 
 /* --- Single post --- */
+.e2-note-single .note-header {
+  display: block;
+}
+
 .e2-note-single .note-title {
   font-size: 32px;
   line-height: 38px;

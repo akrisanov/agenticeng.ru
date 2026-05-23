@@ -83,3 +83,16 @@ twitter_title %}{{ page.title }} — {{ config.title }}{% endblock twitter_title
 })();
 </script>
 {% endblock content %}
+
+{% if page.extra.mermaid %}
+{% block scripts %}
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default',
+    fontFamily: 'inherit',
+  });
+</script>
+{% endblock scripts %}
+{% endif %}

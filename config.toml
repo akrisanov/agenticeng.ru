@@ -6,7 +6,7 @@ author = "Андрей Крисанов"
 generate_feeds = true
 feed_filenames = ["rss.xml"]
 compile_sass = false
-minify_html = false
+minify_html = true
 
 taxonomies = [
   { name = "tags", feed = true },

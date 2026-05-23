@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 
 {% block title %}#{{ term.name }} — {{ config.title }}{% endblock title %}
+{% block description %}Посты с тегом #{{ term.name }} — {{ config.title }}{% endblock description %}
+{% block og_title %}#{{ term.name }} — {{ config.title }}{% endblock og_title %}
+{% block og_description %}Посты с тегом #{{ term.name }} — {{ config.title }}{% endblock og_description %}
 
 {% block content %}
 <div class="tag-header">
@@ -9,14 +12,16 @@
 
 {% for page in term.pages %}
 <article class="e2-note">
-  <div class="note-header">
+  <header class="note-header">
     <h2 class="note-title">
       <a href="{{ page.permalink | safe }}">{{ page.title }}</a>
     </h2>
-    <time class="note-date" datetime="{{ page.date | date(format='%Y-%m-%d') }}">
-      {{ page.date | date(format="%d.%m.%Y") }}
-    </time>
-  </div>
+    <div class="note-meta">
+      <time class="note-date" datetime="{{ page.date | date(format='%Y-%m-%d') }}">
+        {{ page.date | date(format="%d.%m.%Y") }}
+      </time>
+    </div>
+  </header>
   {% if page.description %}
   <div class="note-summary e2-text">
     <p>{{ page.description }}</p>

@@ -7,11 +7,22 @@
   <title>{% block title %}{{ config.title }}{% endblock title %}</title>
 
   <meta name="description" content="{% block description %}{{ config.description }}{% endblock description %}" />
-  <meta property="og:description" content="{% block og_description %}{{ config.description }}{% endblock og_description %}" />
-  <meta property="og:type" content="website" />
+  <link rel="canonical" href="{{ current_url | safe }}" />
+
+  <meta property="og:type" content="{% block og_type %}website{% endblock og_type %}" />
   <meta property="og:title" content="{% block og_title %}{{ config.title }}{% endblock og_title %}" />
+  <meta property="og:description" content="{% block og_description %}{{ config.description }}{% endblock og_description %}" />
   <meta property="og:url" content="{{ current_url | safe }}" />
+  <meta property="og:site_name" content="{{ config.title }}" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:image" content="{% block og_image %}{{ config.base_url }}/images/userpic-square.jpg{% endblock og_image %}" />
+  <meta property="og:image:width" content="784" />
+  <meta property="og:image:height" content="784" />
+
   <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="{% block twitter_title %}{{ config.title }}{% endblock twitter_title %}" />
+  <meta name="twitter:description" content="{% block twitter_description %}{{ config.description }}{% endblock twitter_description %}" />
+  <meta name="twitter:image" content="{% block twitter_image %}{{ config.base_url }}/images/userpic-square.jpg{% endblock twitter_image %}" />
 
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-180.png" />

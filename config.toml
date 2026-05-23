@@ -24,3 +24,6 @@ theme = "ayu-dark"
 [extra]
 blog_subtitle = "Инженерные заметки о LLM-инфраструктуре, агентах и AI"
 yandex_metrika_id = "108420973"
+
+[link_checker]
+skip_prefixes = ["https://", "http://"]

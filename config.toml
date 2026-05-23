@@ -22,5 +22,5 @@ highlight_code = true
 theme = "ayu-dark"
 
 [extra]
-blog_subtitle = "ИИ, агенты и инфраструктура"
+blog_subtitle = "Инженерные заметки о LLM-инфраструктуре, агентах и AI"
 yandex_metrika_id = "108420973"

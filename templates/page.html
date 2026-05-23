@@ -88,10 +88,37 @@ twitter_title %}{{ page.title }} — {{ config.title }}{% endblock twitter_title
 {% if page.extra.mermaid %}
 <script type="module">
   import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   mermaid.initialize({
     startOnLoad: true,
-    theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default',
-    fontFamily: 'inherit',
+    theme: 'base',
+    themeVariables: dark ? {
+      primaryColor: '#3a2a4a',
+      primaryTextColor: '#efdcef',
+      primaryBorderColor: 'rgba(234,200,234,0.35)',
+      lineColor: 'rgba(234,200,234,0.5)',
+      secondaryColor: '#2a3a4a',
+      tertiaryColor: '#26212b',
+      edgeLabelBackground: '#26212b',
+      clusterBkg: '#2e2838',
+      clusterBorder: 'rgba(234,200,234,0.25)',
+      titleColor: '#ff40b9',
+      fontFamily: 'system-ui, -apple-system, sans-serif',
+      fontSize: '15px',
+    } : {
+      primaryColor: '#f8e8ff',
+      primaryTextColor: '#40309',
+      primaryBorderColor: 'rgba(64,48,144,0.25)',
+      lineColor: 'rgba(64,48,144,0.4)',
+      secondaryColor: '#e8f4ff',
+      tertiaryColor: '#fff8fc',
+      edgeLabelBackground: '#fff8fc',
+      clusterBkg: '#fdf0ff',
+      clusterBorder: 'rgba(64,48,144,0.15)',
+      titleColor: '#ff00a0',
+      fontFamily: 'system-ui, -apple-system, sans-serif',
+      fontSize: '15px',
+    },
   });
 </script>
 {% endif %}

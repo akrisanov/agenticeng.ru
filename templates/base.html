@@ -72,7 +72,7 @@
 
   <footer class="footer">
     <div class="footer-copy">
-      &copy; {{ config.extra.author }}, {{ now() | date(format="%Y") }}
+      &copy; {{ config.author }}, {{ now() | date(format="%Y") }}
       {% if config.generate_feeds %}
       <a class="footer-rss" href="{{ get_url(path='rss.xml') }}" title="RSS">RSS</a>
       {% endif %}

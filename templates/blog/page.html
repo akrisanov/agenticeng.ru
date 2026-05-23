@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title }} — {{ config.title }}{% endblock title %}
+
+{% block description %}{% if page.description %}{{ page.description }}{% else %}{{ config.description }}{% endif %}{% endblock description %}
+
+{% block og_title %}{{ page.title }} — {{ config.title }}{% endblock og_title %}
+
+{% block og_description %}{% if page.description %}{{ page.description }}{% else %}{{ config.description }}{% endif %}{% endblock og_description %}
+
+{% block content %}
+<article class="e2-note e2-note-single" itemscope itemtype="https://schema.org/BlogPosting">
+
+  <header class="note-header">
+    <h1 class="note-title" itemprop="headline">{{ page.title }}</h1>
+    <div class="note-meta">
+      <time class="note-date" datetime="{{ page.date | date(format='%Y-%m-%d') }}" itemprop="datePublished">
+        {{ page.date | date(format="%d.%m.%Y") }}
+      </time>
+      {% if page.taxonomies.tags %}
+      <span class="note-tags-inline">
+        {% for tag in page.taxonomies.tags %}
+        <a href="{{ get_taxonomy_url(kind='tags', name=tag) | safe }}" class="tag">#{{ tag }}</a>
+        {% endfor %}
+      </span>
+      {% endif %}
+    </div>
+  </header>
+
+  <div class="e2-text note-body" itemprop="articleBody">
+    {{ page.content | safe }}
+  </div>
+
+</article>
+
+<nav class="note-navigation">
+  {% if page.lower %}
+  <a href="{{ page.lower.permalink | safe }}" class="nav-older">&larr; {{ page.lower.title }}</a>
+  {% endif %}
+  {% if page.higher %}
+  <a href="{{ page.higher.permalink | safe }}" class="nav-newer">{{ page.higher.title }} &rarr;</a>
+  {% endif %}
+</nav>
+{% endblock content %}

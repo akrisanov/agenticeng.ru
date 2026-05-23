@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}#{{ term.name }} — {{ config.title }}{% endblock title %}
+
+{% block content %}
+<div class="tag-header">
+  <h1 class="page-heading">#{{ term.name }}</h1>
+</div>
+
+{% for page in term.pages %}
+<article class="e2-note">
+  <div class="note-header">
+    <h2 class="note-title">
+      <a href="{{ page.permalink | safe }}">{{ page.title }}</a>
+    </h2>
+    <time class="note-date" datetime="{{ page.date | date(format='%Y-%m-%d') }}">
+      {{ page.date | date(format="%d.%m.%Y") }}
+    </time>
+  </div>
+  {% if page.description %}
+  <div class="note-summary e2-text">
+    <p>{{ page.description }}</p>
+  </div>
+  {% endif %}
+</article>
+{% endfor %}
+{% endblock content %}

@@ -49,7 +49,7 @@
     Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans",
     "Helvetica Neue", Helvetica, Arial, sans-serif;
 
-  --time: 0.2s;
+  --time: 1.333s;
 }
 
 /* --- Dark mode overrides --- */
@@ -350,12 +350,7 @@ a:hover {
 
 /* --- Post / note list --- */
 .e2-note {
-  padding: 28px 0;
-  border-bottom: 1px solid var(--thinRuleColor);
-}
-
-.e2-note:first-child {
-  padding-top: 0;
+  margin: 0 0 60px;
 }
 
 .note-header {
@@ -368,10 +363,13 @@ a:hover {
 
 .note-title {
   font-weight: bold;
-  font-size: 22px;
-  line-height: 28px;
+  font-size: 36px;
+  line-height: 42px;
   color: var(--headingsColor);
   flex: 1 1 auto;
+  max-width: 720px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .note-title a,
@@ -451,9 +449,15 @@ a:hover {
   margin-bottom: 20px;
 }
 
+.e2-text p,
+.e2-text blockquote {
+  max-width: 720px;
+}
+
 .e2-text ul,
 .e2-text ol {
-  padding-left: 28px;
+  padding-left: 40px;
+  max-width: 720px;
 }
 
 .e2-text li {
@@ -470,10 +474,13 @@ a:hover {
 }
 
 .e2-text h2 {
-  font-size: 24px;
+  font-size: 26px;
+  line-height: 28px;
+  font-weight: normal;
 }
 .e2-text h3 {
-  font-size: 20px;
+  font-size: 26px;
+  line-height: 30px;
 }
 .e2-text h4 {
   font-size: 18px;
@@ -507,9 +514,8 @@ a:hover {
 }
 
 .e2-text blockquote {
-  border-left: 3px solid var(--headingsColor);
   margin-left: 0;
-  padding-left: 20px;
+  padding: 0 0 0 40px;
   color: var(--foregroundColor);
   opacity: 0.8;
 }

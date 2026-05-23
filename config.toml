@@ -19,7 +19,8 @@ smart_punctuation = false
 
 [markdown.highlighting]
 highlight_code = true
-theme = "ayu-dark"
+light_theme = "catppuccin-latte"
+dark_theme = "catppuccin-mocha"
 
 [extra]
 blog_subtitle = "Инженерные заметки о LLM-инфраструктуре, агентах и AI"

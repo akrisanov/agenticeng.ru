@@ -50,7 +50,9 @@ Pod → Kubernetes → containerd → NVIDIA runtime → WSL GPU → Windows dri
 Если после установки WSL2 у вас работает [Nvidia System Management](<https://docs.nvidia.com/deploy/nvidia-smi/index.html>):
     
     
-    nvidia-smi
+```bash
+nvidia-smi
+```
 
 — двигаемся дальше.
 
@@ -61,13 +63,17 @@ WSL — особенная штука. Драйвер для GPU живет в W
 Если nvidia-smi не находится:
     
     
-    echo 'export PATH=$PATH:/usr/lib/wsl/lib' >> ~/.bashrc
-    source ~/.bashrc
+```bash
+echo 'export PATH=$PATH:/usr/lib/wsl/lib' >> ~/.bashrc
+source ~/.bashrc
+```
 
 Чего не стоит делать:
     
     
-    apt install nvidia-utils-*
+```bash
+apt install nvidia-utils-*
+```
 
 Такая установка системных пакетов внутри Linux почти гарантированно все сломает.
 
@@ -76,53 +82,69 @@ WSL — особенная штука. Драйвер для GPU живет в W
 Перед установкой Kubernetes важно убедиться, что GPU работает в контейнерах.
     
     
-    sudo nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml
-    podman run --rm --device=nvidia.com/gpu=all ubuntu nvidia-smi
+```bash
+sudo nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml
+podman run --rm --device=nvidia.com/gpu=all ubuntu nvidia-smi
+```
 
 Если последняя команда выполняется успешно, то runtime настроен правильно.
 
 ### Шаг 4: Установка K3s
     
     
-    curl -sfL https://get.k3s.io | sh -
+```bash
+curl -sfL https://get.k3s.io | sh -
+```
 
 Настраиваем kubeconfig:
     
     
-    mkdir -p ~/.kube
-    sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
-    sudo chown $USER:$USER ~/.kube/config
-    export KUBECONFIG=~/.kube/config
+```bash
+mkdir -p ~/.kube
+sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
+sudo chown $USER:$USER ~/.kube/config
+export KUBECONFIG=~/.kube/config
+```
 
 Проверяем доступна ли наша единственная Kubernetes нода:
     
     
-    kubectl get nodes
+```bash
+kubectl get nodes
+```
 
 ### Шаг 5: Подключение NVIDIA runtime
     
     
-    sudo nvidia-ctk runtime configure --runtime=containerd
-    sudo systemctl restart k3s
+```bash
+sudo nvidia-ctk runtime configure --runtime=containerd
+sudo systemctl restart k3s
+```
 
 После перезапуска K3s убеждаемся, что поддержка GPU есть в конфиге:
     
     
-    sudo grep nvidia /var/lib/rancher/k3s/agent/etc/containerd/config.toml
+```bash
+sudo grep nvidia /var/lib/rancher/k3s/agent/etc/containerd/config.toml
+```
 
 ### Шаг 6: Установка device plugin
     
     
-    kubectl apply -f \
-    https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.17.1/deployments/static/nvidia-device-plugin.yml
+```bash
+kubectl apply -f \
+https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.17.1/deployments/static/nvidia-device-plugin.yml
+```
 
 ### NVIDIA runtime и device plugin
 
 После выполнения шага 6 я столкнулся со следующей ситуацией вокруг device plugin — он запускается и не падает, но не видит GPU. В логах можно увидеть:
     
     
-    No devices found. Waiting indefinitely.
-    Incompatible strategy detected auto
+```text
+No devices found. Waiting indefinitely.
+Incompatible strategy detected auto
+```
 
 Причина такого поведения кроется в том, что device plugin запускается под обычным runtime (runc), а не под NVIDIA runtime. Т. е.:
 
@@ -135,20 +157,26 @@ WSL — особенная штука. Драйвер для GPU живет в W
 Нужно заставить сам device plugin использовать NVIDIA runtime:
     
     
-    kubectl patch daemonset nvidia-device-plugin-daemonset \
-      -n kube-system \
-      --type='merge' \
-      -p '{"spec":{"template":{"spec":{"runtimeClassName":"nvidia"}}}}'
+```bash
+kubectl patch daemonset nvidia-device-plugin-daemonset \
+  -n kube-system \
+  --type='merge' \
+  -p '{"spec":{"template":{"spec":{"runtimeClassName":"nvidia"}}}}'
+```
 
 Перезапускаем pod:
     
     
-    kubectl delete pod -n kube-system -l name=nvidia-device-plugin-ds
+```bash
+kubectl delete pod -n kube-system -l name=nvidia-device-plugin-ds
+```
 
 и проверяем доступные GPU:
     
     
-    kubectl get node -o jsonpath='{.status.capacity.nvidia\.com/gpu}'
+```bash
+kubectl get node -o jsonpath='{.status.capacity.nvidia\.com/gpu}'
+```
 
 Команда должна вернуть _1_.
 
@@ -157,28 +185,32 @@ WSL — особенная штука. Драйвер для GPU живет в W
 Для тестирования работы GPU внутри WSL2 можно запустить следующий pod:
     
     
-    cat <<'EOF' | kubectl apply -f -
-    apiVersion: v1
-    kind: Pod
-    metadata:
-      name: cuda-smoke-test
-    spec:
-      restartPolicy: Never
-      runtimeClassName: nvidia
-      containers:
-      - name: cuda
-        image: nvcr.io/nvidia/k8s/cuda-sample:nbody
-        args: ["nbody", "-gpu", "-benchmark"]
-        resources:
-          limits:
-            nvidia.com/gpu: 1
-    EOF
+```yaml
+cat <<'EOF' | kubectl apply -f -
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cuda-smoke-test
+spec:
+  restartPolicy: Never
+  runtimeClassName: nvidia
+  containers:
+  - name: cuda
+    image: nvcr.io/nvidia/k8s/cuda-sample:nbody
+    args: ["nbody", "-gpu", "-benchmark"]
+    resources:
+      limits:
+        nvidia.com/gpu: 1
+EOF
+```
 
 и проверить его состояние и логи:
     
     
-    kubectl get pod cuda-smoke-test -w
-    kubectl logs cuda-smoke-test
+```bash
+kubectl get pod cuda-smoke-test -w
+kubectl logs cuda-smoke-test
+```
 
 ### Что в итоге получилось
 

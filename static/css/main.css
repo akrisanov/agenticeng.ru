@@ -135,13 +135,31 @@ button {
   font-family: var(--mainFontFamily);
 }
 
+/* --- JetBrains Mono --- */
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/fonts/JetBrainsMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/fonts/JetBrainsMono-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 pre,
 tt,
 code,
 pre *,
 tt *,
 code * {
-  font-family: "Consolas", "Courier New", monospace;
+  font-family: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  font-feature-settings: "liga" 1, "calt" 1;
 }
 
 pre,
@@ -507,15 +525,15 @@ a:hover {
   background: var(--inputBackgroundColor);
   padding: 1px 5px;
   border-radius: 3px;
-  font-size: 0.9em;
+  font-size: 0.85em;
 }
 
 .e2-text pre {
-  padding: 16px;
-  border-radius: 6px;
+  padding: 16px 20px;
+  border-radius: 8px;
   overflow-x: auto;
-  font-size: 14px;
-  line-height: 20px;
+  font-size: 13.5px;
+  line-height: 22px;
 }
 
 .e2-text pre code {

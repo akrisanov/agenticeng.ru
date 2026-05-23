@@ -1,8 +1,9 @@
 +++
 title = "Будущее MCP"
 date = 2026-05-05
+description = "Посмотрел доклад David Soria Parra из Anthropic про будущее MCP. Основные тезисы о progressive discovery, gateway-слое для агентов и идентичности агентов."
 [taxonomies]
-tags = []
+tags = ["MCP", "агенты", "инфраструктура ИИ"]
 +++
 
 Посмотрел доклад David Soria Parra из Anthropic про будущее MCP.

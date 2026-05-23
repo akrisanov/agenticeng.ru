@@ -1,11 +1,13 @@
 +++
 title = "Kubernetes с доступом к GPU внутри WSL2 на ноутбуке с RTX"
 date = 2026-04-22
+description = "Пошаговая инструкция по настройке Kubernetes с доступом к NVIDIA GPU внутри WSL2 на ноутбуке с RTX: k3s, NVIDIA Container Toolkit и device plugin."
 [taxonomies]
-tags = []
+tags = ["gpu", "kubernetes", "nvidia", "windows", "wsl2", "инфраструктура ИИ"]
 +++
 
 На днях мне понадобилась локальная среда c Kubernetes для запуска GPU задач и тестирования сервисов с ИИ. Мой рабочий компьютер — это ноутбук Lenovo Legion следующей конфигурации:
+<!-- more -->
 
   * Процессор 13th Gen Intel(R) Core(TM) i7-13650HX (2.60 GHz)
   * Оперативная память 32 GB

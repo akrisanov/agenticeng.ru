@@ -1,11 +1,13 @@
 +++
 title = "Установка DCGM Exporter в локальный Kubernetes-кластер с NVIDIA GPU"
 date = 2026-04-23
+description = "Как установить DCGM Exporter в локальный Kubernetes-кластер (k3s) с доступом к NVIDIA GPU внутри WSL2 и собирать детальные GPU-метрики для Prometheus."
 [taxonomies]
-tags = []
+tags = ["gpu", "kubernetes", "nvidia", "wsl2", "инфраструктура ИИ", "мониторинг"]
 +++
 
 В [предыдущей заметке](</all/wsl-nvidia-gpu/>) я рассказывал как развернуть локальный кластер Kubernetes с доступом к GPU внутри WSL2 окружения. Для того, чтобы собирать детальные метрики с видеокарты, _nvidia-smi_ не достаточно, т. к. GPU-Util показывает только активность в рамках короткого sampling-окна. Для анализа того, что происходит с GPU при обработке задач, нужен DCGM. [dcgm-exporter](<https://github.com/NVIDIA/dcgm-exporter>) — это утилита NVIDIA для сбора GPU-метрик через DCGM, которая отдает их через HTTP-метод /_metrics_ для Prometheus и похожих систем мониторинга.
+<!-- more -->
 
 При попытке установить _dcgm-exporter_ в k3s кластер Helm chart по умолчанию создает _ServiceMonitor_. Но если в кластере не установлен Prometheus оператор, процесс завершится с ошибкой:
     

@@ -73,6 +73,7 @@
             <div class="blog-description"><p>{{ config.extra.blog_subtitle }}</p></div>
             {% endif %}
             <nav class="header-nav" aria-label="Навигация">
+              <a href="/consulting/" class="header-nav-link{% if current_path == '/consulting/' %} is-active{% endif %}">Консалтинг</a>
               <a href="/about/" class="header-nav-link{% if current_path == '/about/' %} is-active{% endif %}">Обо мне</a>
               <a href="/now/" class="header-nav-link{% if current_path == '/now/' %} is-active{% endif %}">Сейчас</a>
             </nav>

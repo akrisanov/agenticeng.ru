@@ -15,4 +15,18 @@ date = 2024-01-01
 
 Этот блог — место, где я пишу заметки о том, что изучаю и над чем работаю: LLM-инфраструктура, агенты, разработка в эпоху AI. Пишу в основном для себя, но буду рад, если статьи окажутся полезными кому-то ещё.
 
-Связаться со мной можно в Телеграм: [@akrisanov](https://t.me/akrisanov).
+---
+
+**Написать мне**
+
+- [Telegram](https://t.me/akrisanov)
+- [LinkedIn](https://www.linkedin.com/in/akrisanov)
+- [X (бывший Twitter)](https://x.com/_akrisanov)
+
+**Посмотреть код**
+
+- [GitHub @akrisanov](https://github.com/akrisanov)
+
+**Подписаться на блог**
+
+- [RSS-лента](/rss.xml)

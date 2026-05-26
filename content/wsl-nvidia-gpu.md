@@ -9,30 +9,26 @@ tags = ["GPU", "Kubernetes", "NVIDIA", "Windows", "WSL2", "инфраструк�
 На днях мне понадобилась локальная среда c Kubernetes для запуска GPU задач и тестирования сервисов с ИИ. Мой рабочий компьютер — это ноутбук Lenovo Legion следующей конфигурации:
 <!-- more -->
 
-  * Процессор 13th Gen Intel(R) Core(TM) i7-13650HX (2.60 GHz)
-  * Оперативная память 32 GB
-  * Видеокарта NVIDIA GeForce RTX 5070 Laptop GPU
-  * Диск 1 TB SSD
-
-
+* Процессор 13th Gen Intel(R) Core(TM) i7-13650HX (2.60 GHz)
+* Оперативная память 32 GB
+* Видеокарта NVIDIA GeForce RTX 5070 Laptop GPU
+* Диск 1 TB SSD
 
 Каждый раз арендовать облако и временно развертывать K8s-окружение, чтобы экономить на стоимости — не очень удобно. Поэтому я решил попробовать сконфигурировать локальную среду. Оказалось, что Kubernetes с доступом к GPU внутри WSL2 — это реально. Но есть несколько неочевидных нюансов, которые ломают рантайм.
 
-### TL;DR
+## TL;DR
 
 Итоговый стек:
 
-  * Windows 11 + NVIDIA driver (с поддержкой WSL)
-  * [Podman](<https://podman.io/>)
-  * WSL2 (Ubuntu 24.04)
-  * K3s (containerd)
-  * NVIDIA Container Toolkit
-  * NVIDIA device plugin
-  * фикс: `runtimeClassName: nvidia` для device plugin
+* Windows 11 + NVIDIA driver (с поддержкой WSL)
+* [Podman](<https://podman.io/>)
+* WSL2 (Ubuntu 24.04)
+* K3s (containerd)
+* NVIDIA Container Toolkit
+* NVIDIA device plugin
+* фикс: `runtimeClassName: nvidia` для device plugin
 
-
-
-### Что хотелось получить
+## Что хотелось получить
 
 По сути — мини-кластер на ноутбуке, который работает по следующей схеме:
 
@@ -40,48 +36,42 @@ Pod → Kubernetes → containerd → NVIDIA runtime → WSL GPU → Windows dri
 
 С возможностью делать:
 
-  * локальный инференс
-  * эксперименты с AI-инфраструктурой и GPU
+* локальный инференс
+* эксперименты с AI-инфраструктурой и GPU
 
-
-
-### Шаг 1: Проверка GPU в WSL
+## Шаг 1: Проверка GPU в WSL
 
 Если после установки WSL2 у вас работает [Nvidia System Management](<https://docs.nvidia.com/deploy/nvidia-smi/index.html>):
-    
-    
+
 ```bash
 nvidia-smi
 ```
 
 — двигаемся дальше.
 
-### Шаг 2: Linux-драйверы
+## Шаг 2: Linux-драйверы
 
 WSL — особенная штука. Драйвер для GPU живет в Windows, Linux просто проксирует доступ через `/usr/lib/wsl`
 
 Если nvidia-smi не находится:
-    
-    
+
 ```bash
 echo 'export PATH=$PATH:/usr/lib/wsl/lib' >> ~/.bashrc
 source ~/.bashrc
 ```
 
 Чего не стоит делать:
-    
-    
+
 ```bash
 apt install nvidia-utils-*
 ```
 
 Такая установка системных пакетов внутри Linux почти гарантированно все сломает.
 
-### Шаг 3: Проверка GPU в контейнерах
+## Шаг 3: Проверка GPU в контейнерах
 
 Перед установкой Kubernetes важно убедиться, что GPU работает в контейнерах.
-    
-    
+
 ```bash
 sudo nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml
 podman run --rm --device=nvidia.com/gpu=all ubuntu nvidia-smi
@@ -89,16 +79,14 @@ podman run --rm --device=nvidia.com/gpu=all ubuntu nvidia-smi
 
 Если последняя команда выполняется успешно, то runtime настроен правильно.
 
-### Шаг 4: Установка K3s
-    
-    
+## Шаг 4: Установка K3s
+
 ```bash
 curl -sfL https://get.k3s.io | sh -
 ```
 
 Настраиваем kubeconfig:
-    
-    
+
 ```bash
 mkdir -p ~/.kube
 sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
@@ -107,40 +95,35 @@ export KUBECONFIG=~/.kube/config
 ```
 
 Проверяем доступна ли наша единственная Kubernetes нода:
-    
-    
+
 ```bash
 kubectl get nodes
 ```
 
-### Шаг 5: Подключение NVIDIA runtime
-    
-    
+## Шаг 5: Подключение NVIDIA runtime
+
 ```bash
 sudo nvidia-ctk runtime configure --runtime=containerd
 sudo systemctl restart k3s
 ```
 
 После перезапуска K3s убеждаемся, что поддержка GPU есть в конфиге:
-    
-    
+
 ```bash
 sudo grep nvidia /var/lib/rancher/k3s/agent/etc/containerd/config.toml
 ```
 
-### Шаг 6: Установка device plugin
-    
-    
+## Шаг 6: Установка device plugin
+
 ```bash
 kubectl apply -f \
 https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.17.1/deployments/static/nvidia-device-plugin.yml
 ```
 
-### NVIDIA runtime и device plugin
+## NVIDIA runtime и device plugin
 
 После выполнения шага 6 я столкнулся со следующей ситуацией вокруг device plugin — он запускается и не падает, но не видит GPU. В логах можно увидеть:
-    
-    
+
 ```text
 No devices found. Waiting indefinitely.
 Incompatible strategy detected auto
@@ -148,15 +131,12 @@ Incompatible strategy detected auto
 
 Причина такого поведения кроется в том, что device plugin запускается под обычным runtime (runc), а не под NVIDIA runtime. Т. е.:
 
-  * внутри pod’а нет CUDA / NVML
-  * GPU не может быть обнаружен
-  * `nvidia.com/gpu` не регистрируется
-
-
+* внутри pod’а нет CUDA / NVML
+* GPU не может быть обнаружен
+* `nvidia.com/gpu` не регистрируется
 
 Нужно заставить сам device plugin использовать NVIDIA runtime:
-    
-    
+
 ```bash
 kubectl patch daemonset nvidia-device-plugin-daemonset \
   -n kube-system \
@@ -165,26 +145,23 @@ kubectl patch daemonset nvidia-device-plugin-daemonset \
 ```
 
 Перезапускаем pod:
-    
-    
+
 ```bash
 kubectl delete pod -n kube-system -l name=nvidia-device-plugin-ds
 ```
 
 и проверяем доступные GPU:
-    
-    
+
 ```bash
 kubectl get node -o jsonpath='{.status.capacity.nvidia\.com/gpu}'
 ```
 
 Команда должна вернуть _1_.
 
-### Финальная проверка
+## Финальная проверка
 
 Для тестирования работы GPU внутри WSL2 можно запустить следующий pod:
-    
-    
+
 ```yaml
 cat <<'EOF' | kubectl apply -f -
 apiVersion: v1
@@ -205,19 +182,16 @@ EOF
 ```
 
 и проверить его состояние и логи:
-    
-    
+
 ```bash
 kubectl get pod cuda-smoke-test -w
 kubectl logs cuda-smoke-test
 ```
 
-### Что в итоге получилось
+## Что в итоге получилось
 
-  * локальный Kubernetes на ноутбуке с Nvidia RTX 5070 (8GB vRAM)
-  * с возможность GPU scheduling
-  * тестирования задач с CUDA и LLM
-
-
+* локальный Kubernetes на ноутбуке с Nvidia RTX 5070 (8GB vRAM)
+* с возможность GPU scheduling
+* тестирования задач с CUDA и LLM
 
 Такое окружение хорошо подходит для локального инференса LLM, экспериментов и обучения. Но его не стоит использовать для бенчмарков и более серьезных задач.

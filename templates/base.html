@@ -7,12 +7,12 @@
   <title>{% block title %}{{ config.title }}{% endblock title %}</title>
 
   <meta name="description" content="{% block description %}{{ config.description }}{% endblock description %}" />
-  <link rel="canonical" href="{{ current_url | safe }}" />
+  {% block canonical %}<link rel="canonical" href="{{ current_url | safe }}" />{% endblock canonical %}
 
   <meta property="og:type" content="{% block og_type %}website{% endblock og_type %}" />
   <meta property="og:title" content="{% block og_title %}{{ config.title }}{% endblock og_title %}" />
   <meta property="og:description" content="{% block og_description %}{{ config.description }}{% endblock og_description %}" />
-  <meta property="og:url" content="{{ current_url | safe }}" />
+  {% block og_url %}<meta property="og:url" content="{{ current_url | safe }}" />{% endblock og_url %}
   <meta property="og:site_name" content="{{ config.title }}" />
   <meta property="og:locale" content="ru_RU" />
   <meta property="og:image" content="{% block og_image %}{{ config.base_url }}/images/userpic-square.jpg{% endblock og_image %}" />
@@ -73,9 +73,9 @@
             <div class="blog-description"><p>{{ config.extra.blog_subtitle }}</p></div>
             {% endif %}
             <nav class="header-nav" aria-label="Навигация">
-              <a href="/consulting/" class="header-nav-link{% if current_path == '/consulting/' %} is-active{% endif %}">Консалтинг</a>
-              <a href="/about/" class="header-nav-link{% if current_path == '/about/' %} is-active{% endif %}">Обо мне</a>
-              <a href="/now/" class="header-nav-link{% if current_path == '/now/' %} is-active{% endif %}">Сейчас</a>
+              <a href="/consulting/" class="header-nav-link{% if current_path is defined and current_path == '/consulting/' %} is-active{% endif %}">Консалтинг</a>
+              <a href="/about/" class="header-nav-link{% if current_path is defined and current_path == '/about/' %} is-active{% endif %}">Обо мне</a>
+              <a href="/now/" class="header-nav-link{% if current_path is defined and current_path == '/now/' %} is-active{% endif %}">Сейчас</a>
             </nav>
           </div>
         </div><!-- /.title-inner -->

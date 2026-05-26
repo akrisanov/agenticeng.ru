@@ -10,8 +10,7 @@ tags = ["GPU", "Kubernetes", "NVIDIA", "WSL2", "инфраструктура И�
 <!-- more -->
 
 При попытке установить `dcgm-exporter` в k3s кластер Helm chart по умолчанию создает `ServiceMonitor`. Но если в кластере не установлен Prometheus оператор, процесс завершится с ошибкой:
-    
-    
+
 ```text
 no matches for kind "ServiceMonitor" in version "monitoring.coreos.com/v1"
 ensure CRDs are installed first
@@ -20,15 +19,13 @@ ensure CRDs are installed first
 Это ожидаемое поведение. В dcgm-exporter chart по умолчанию `serviceMonitor.enabled: true` , а  `ServiceMonitor` относится к CRD из экосистемы Prometheus Operator. В том же чарте `runtimeClassName` — пустой.
 
 Проверяем, что Kubernetes все еще видит GPU:
-    
-    
+
 ```bash
 kubectl get nodes -o json | jq '.items[].status.allocatable'
 ```
 
 На моей системе результат такой:
-    
-    
+
 ```json
 {
   "cpu": "20",
@@ -42,16 +39,14 @@ kubectl get nodes -o json | jq '.items[].status.allocatable'
 ```
 
 Далее добавляем репозиторий:
-    
-    
+
 ```bash
 helm repo add gpu-helm-charts https://nvidia.github.io/dcgm-exporter/helm-charts
 helm repo update
 ```
 
 Отключаем создание `ServiceMonitor` и указываем Nvidia runtime class:
-    
-    
+
 ```bash
 helm install dcgm-exporter gpu-helm-charts/dcgm-exporter \
   --set serviceMonitor.enabled=false \
@@ -59,16 +54,14 @@ helm install dcgm-exporter gpu-helm-charts/dcgm-exporter \
 ```
 
 Проверяем, что pod с экспортером поднялся:
-    
-    
+
 ```bash
 kubectl get pods -l app.kubernetes.io/name=dcgm-exporter -o wide
 kubectl logs -l app.kubernetes.io/name=dcgm-exporter --tail=50
 ```
 
 Успешный запуск выглядит примерно так:
-    
-    
+
 ```text
 Starting dcgm-exporter
 Attempting to initialize DCGM.
@@ -83,30 +76,25 @@ Listening on [::]:9400
 
 Это означает, что:
 
-  * DCGM инициализировался
-  * NVML инициализировался
-  * exporter увидел GPU
-  * HTTP endpoint с метриками уже работает
-
-
+* DCGM инициализировался
+* NVML инициализировался
+* exporter увидел GPU
+* HTTP endpoint с метриками уже работает
 
 Если chart создал сервис, его можно посмотреть так:
-    
-    
+
 ```bash
 kubectl get svc
 ```
 
 Дальше пробрасываем порт:
-    
-    
+
 ```bash
 kubectl port-forward svc/dcgm-exporter 9400:9400
 ```
 
 И проверяем:
-    
-    
+
 ```bash
 curl http://127.0.0.1:9400/metrics | head -50
 curl http://127.0.0.1:9400/health

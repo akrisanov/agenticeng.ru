@@ -20,6 +20,7 @@ date = 2024-01-01
 **Написать мне**
 
 - [Telegram](https://t.me/akrisanov)
+- [Telegram-канал @absorbingthings](https://t.me/absorbingthings)
 - [LinkedIn](https://www.linkedin.com/in/akrisanov)
 - [X (бывший Twitter)](https://x.com/_akrisanov)
 
